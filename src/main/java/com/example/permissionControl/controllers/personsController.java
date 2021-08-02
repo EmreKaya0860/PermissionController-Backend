@@ -52,7 +52,7 @@ public class personsController {
 
     @DeleteMapping
     public persons deletePersons(
-            @RequestParam(name = "_del", defaultValue = "104") Integer id) throws SQLException {
+            @RequestParam(name = "_del", defaultValue = "102") Integer id) throws SQLException {
         App delP = new App();
         delP.deletePersons(id);
         return delP.findPersonByID(id);
