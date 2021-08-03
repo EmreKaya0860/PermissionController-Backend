@@ -102,12 +102,12 @@ public class managerFunctions extends App {
     }
 
     public managers updateManagers(managers manager) throws SQLException {
-        String SQL = "UPDATE managers"+
-                     "SET email = ?," +
-                     "phone = ?," +
-                     "city = ?," +
-                     "status = ?," +
-                     "department = ? "+
+        String SQL = "UPDATE managers SET "+
+                     "email = ?, " +
+                     "phone = ?, " +
+                     "city = ?, " +
+                     "status = ?, " +
+                     "department = ?  "+
                      "WHERE id = ?";
 
         try (Connection conn = connect();
@@ -119,6 +119,7 @@ public class managerFunctions extends App {
             pstmt.setString(4, manager.getStatus());
             pstmt.setString(5, manager.getDepartment());
             pstmt.setInt(6,manager.getId());
+            pstmt.executeUpdate();
 
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
