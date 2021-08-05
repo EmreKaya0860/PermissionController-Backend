@@ -10,7 +10,7 @@ import java.util.List;
 public class permissionTableFuncitons extends App {
 
     public List<permissionTable> getpermissionTable() throws SQLException {
-        String SQL = "SELECT * FROM permission_table";
+        String SQL = "SELECT * FROM permission_table ORDER BY id ASC";
 
         List<permissionTable> permissionTableList = new ArrayList<>();
 
