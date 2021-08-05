@@ -26,9 +26,10 @@ public class employees {
         private String department;
         private Date started_date;
         private Integer manager_id;
+        private String position;
 
 
-        public employees(Integer id, String name, String email, String phone, String city, String gender, String status, String department, Date started_date, Integer manager_id) {
+        public employees(Integer id, String name, String email, String phone, String city, String gender, String status, String department, Date started_date, Integer manager_id,String position) {
             this.id = id;
             this.name = name;
             this.email = email;
@@ -39,6 +40,7 @@ public class employees {
             this.department = department;
             this.started_date = started_date;
             this.manager_id = manager_id;
+            this.position = position;
         }
 
 

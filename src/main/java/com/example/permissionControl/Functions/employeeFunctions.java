@@ -11,14 +11,15 @@ public class employeeFunctions extends App{
 
 
     public List<employees> getemployees(){
-        String SQL = "SELECT * FROM employees";
-        List<employees> employeesList = new ArrayList<>();
+        String SQL = "SELECT * FROM employees ORDER BY id ASC";
 
+        List<employees> employeesList = new ArrayList<>();
 
         try (Connection conn = connect();
              Statement stmt = conn.createStatement())
         {
             ResultSet rs = stmt.executeQuery(SQL);
+
             while(rs.next()){
                 employees employee = new employees();
                 employee.setId(rs.getInt("id"));
@@ -31,6 +32,7 @@ public class employeeFunctions extends App{
                 employee.setDepartment(rs.getString("department"));
                 employee.setStarted_date(rs.getDate("started_date"));
                 employee.setManager_id(rs.getInt("manager_id"));
+                employee.setPosition(rs.getString("position"));
                 employeesList.add(employee);
             }
 
@@ -59,6 +61,7 @@ public class employeeFunctions extends App{
             findEmployee.setDepartment(rs.getString("department"));
             findEmployee.setStarted_date(rs.getDate("started_date"));
             findEmployee.setManager_id(rs.getInt("manager_id"));
+            findEmployee.setPosition(rs.getString("position"));
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
@@ -67,7 +70,7 @@ public class employeeFunctions extends App{
 
     public employees insertEmployee(employees employee) {
         String SQL = "INSERT INTO employees(name,email,phone,city,gender,status,department,started_date,manager_id) "
-                + "VALUES(?,?,?,?,?,?,?,?,?)";
+                + "VALUES(?,?,?,?,?,?,?,?,?,?)";
 
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(SQL)) {
@@ -81,6 +84,7 @@ public class employeeFunctions extends App{
             pstmt.setString(7, employee.getDepartment());
             pstmt.setDate(8,   employee.getStarted_date());
             pstmt.setInt(9, employee.getManager_id());
+            pstmt.setString(10,employee.getPosition());
             pstmt.executeUpdate();
 
         } catch (SQLException ex) {
@@ -102,6 +106,38 @@ public class employeeFunctions extends App{
             System.out.println(ex.getMessage());
         }
         return ID;
+    }
+
+    public employees updateEmployees(employees employee) throws SQLException {
+        String SQL = "UPDATE employees SET "+
+                "email = ?, " +
+                "phone = ?, " +
+                "city = ?, " +
+                "status = ?, " +
+                "department = ?,  "+
+                "position = ?, "+
+                "manager_id = ? "+
+                "WHERE id = ?";
+
+        try (Connection conn = connect();
+             PreparedStatement pstmt = conn.prepareStatement(SQL)) {
+
+            pstmt.setString(1, employee.getEmail());
+            pstmt.setString(2, employee.getPhone());
+            pstmt.setString(3, employee.getCity());
+            pstmt.setString(4, employee.getStatus());
+            pstmt.setString(5, employee.getDepartment());
+            pstmt.setString(6, employee.getPosition());
+            pstmt.setInt(7,employee.getManager_id());
+            pstmt.setInt(8,employee.getId());
+            pstmt.executeUpdate();
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        return findEmployeeByID(employee.getId());
+
     }
 
 }

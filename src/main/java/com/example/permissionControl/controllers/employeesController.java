@@ -47,4 +47,11 @@ public class employeesController {
         return delE.findEmployeeByID(id);
     }
 
+    @PutMapping("/{id}")
+    public employees updateEmployees(@PathVariable("id") Integer id, @RequestBody employees employee) throws SQLException {
+        employeeFunctions upE = new employeeFunctions();
+        employee.setId(id);
+        return upE.updateEmployees(employee);
+    }
+
 }

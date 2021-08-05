@@ -24,8 +24,9 @@ public class managers {
     private String status;
     private String department;
     private Date started_date;
+    private String position;
 
-    public managers(Integer id, String name, String email, String phone, String city, String gender, String status, String department, Date started_date) {
+    public managers(Integer id, String name, String email, String phone, String city, String gender, String status, String department, Date started_date,String position) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -35,6 +36,7 @@ public class managers {
         this.status = status;
         this.department = department;
         this.started_date = started_date;
+        this.position = position;
     }
 
     public managers() {

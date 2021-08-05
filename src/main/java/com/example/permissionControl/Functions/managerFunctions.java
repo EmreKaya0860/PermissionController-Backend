@@ -3,6 +3,7 @@ package com.example.permissionControl.Functions;
 import com.example.permissionControl.DB.App;
 import com.example.permissionControl.Persons.managers;
 
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,7 @@ public class managerFunctions extends App {
 
 
     public List<managers> getmanagers(){
-        String SQL = "SELECT * FROM managers";
+        String SQL = "SELECT * FROM managers ORDER BY id ASC";
         List<managers> managersList = new ArrayList<>();
 
 
@@ -30,6 +31,7 @@ public class managerFunctions extends App {
                 manager.setStatus(rs.getString("status"));
                 manager.setDepartment(rs.getString("department"));
                 manager.setStarted_date(rs.getDate("started_date"));
+                manager.setPosition(rs.getString("position"));
                 managersList.add(manager);
             }
 
@@ -57,6 +59,7 @@ public class managerFunctions extends App {
             findManager.setStatus(rs.getString("status"));
             findManager.setDepartment(rs.getString("department"));
             findManager.setStarted_date(rs.getDate("started_date"));
+            findManager.setPosition(rs.getString("position"));
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
@@ -65,7 +68,7 @@ public class managerFunctions extends App {
 
     public managers insertManager(managers manager) {
         String SQL = "INSERT INTO managers(name,email,phone,city,gender,status,department,started_date) "
-                + "VALUES(?,?,?,?,?,?,?,?)";
+                + "VALUES(?,?,?,?,?,?,?,?,?)";
 
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(SQL)) {
@@ -78,6 +81,7 @@ public class managerFunctions extends App {
             pstmt.setString(6, manager.getStatus());
             pstmt.setString(7, manager.getDepartment());
             pstmt.setDate(8,   manager.getStarted_date());
+            pstmt.setString(9,manager.getPosition());
             pstmt.executeUpdate();
 
         } catch (SQLException ex) {
@@ -107,7 +111,8 @@ public class managerFunctions extends App {
                      "phone = ?, " +
                      "city = ?, " +
                      "status = ?, " +
-                     "department = ?  "+
+                     "department = ?,  "+
+                     "position = ? "+
                      "WHERE id = ?";
 
         try (Connection conn = connect();
@@ -118,7 +123,8 @@ public class managerFunctions extends App {
             pstmt.setString(3, manager.getCity());
             pstmt.setString(4, manager.getStatus());
             pstmt.setString(5, manager.getDepartment());
-            pstmt.setInt(6,manager.getId());
+            pstmt.setString(6, manager.getPosition());
+            pstmt.setInt(7,manager.getId());
             pstmt.executeUpdate();
 
         } catch (SQLException ex) {
