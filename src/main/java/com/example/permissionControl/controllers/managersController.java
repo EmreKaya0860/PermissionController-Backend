@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/managers")
 public class managersController {
 
@@ -31,7 +32,6 @@ public class managersController {
     }
 
     @GetMapping
-    @CrossOrigin(origins = "http://localhost:3000")
     public List<managers> getmanagers()
     {
         managerFunctions app = new managerFunctions();

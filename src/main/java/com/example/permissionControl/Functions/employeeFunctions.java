@@ -69,28 +69,42 @@ public class employeeFunctions extends App{
     }
 
     public employees insertEmployee(employees employee) {
-        String SQL = "INSERT INTO employees(name,email,phone,city,gender,status,department,started_date,manager_id) "
-                + "VALUES(?,?,?,?,?,?,?,?,?,?)";
+        String SQL = "INSERT INTO employees(id,name,email,phone, city,gender,status, department,started_date,manager_id,position) "
+                + "VALUES(?,?,?,?,?, ?,?,?, ?,?,?)";
 
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(SQL)) {
 
-            pstmt.setString(1, employee.getName());
-            pstmt.setString(2, employee.getEmail());
-            pstmt.setString(3, employee.getPhone());
-            pstmt.setString(4, employee.getCity());
-            pstmt.setString(5, employee.getGender());
-            pstmt.setString(6, employee.getStatus());
-            pstmt.setString(7, employee.getDepartment());
-            pstmt.setDate(8,   employee.getStarted_date());
-            pstmt.setInt(9, employee.getManager_id());
-            pstmt.setString(10,employee.getPosition());
+            pstmt.setInt(1,(countEmployees()+1));
+            pstmt.setString(2, employee.getName());
+            pstmt.setString(3, employee.getEmail());
+            pstmt.setString(4, employee.getPhone());
+            pstmt.setString(5, employee.getCity());
+            pstmt.setString(6, employee.getGender());
+            pstmt.setString(7, employee.getStatus());
+            pstmt.setString(8, employee.getDepartment());
+            pstmt.setDate(9,   employee.getStarted_date());
+            pstmt.setInt(10,   employee.getManager_id());
+            pstmt.setString(11,employee.getPosition());
             pstmt.executeUpdate();
 
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
         return employee;
+    }
+
+    public Integer countEmployees() throws SQLException {
+        String SQL = "SELECT countemployees()";
+
+        Connection conn = connect();
+        Statement stmt = conn.createStatement();
+
+        ResultSet rs = stmt.executeQuery(SQL);
+        rs.next();
+
+
+        return rs.getInt("countemployees");
     }
 
     public int deleteemployees(int ID){

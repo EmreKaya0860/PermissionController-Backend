@@ -56,23 +56,37 @@ public class permissionTableFuncitons extends App {
     }
 
     public permissionTable insertPermissionTable(permissionTable permission) {
-        String SQL = "INSERT INTO permission_table(status,start_date,finish_date,taken_by,confirm_by) "
-                + "VALUES(?,?,?,?,?)";
+        String SQL = "INSERT INTO permission_table(id,status,start_date,finish_date,taken_by,confirm_by) "
+                + "VALUES(?,?,?,?,?,?)";
 
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(SQL)) {
 
-            pstmt.setString(1, permission.getStatus());
-            pstmt.setDate(2, permission.getStart_date());
-            pstmt.setDate(3, permission.getFinish_date());
-            pstmt.setInt(4, permission.getTaken_by());
-            pstmt.setInt(5, permission.getConfirm_by());
+            pstmt.setInt(1,countpermissionTable());
+            pstmt.setString(2, permission.getStatus());
+            pstmt.setDate(3, permission.getStart_date());
+            pstmt.setDate(4, permission.getFinish_date());
+            pstmt.setInt(5, permission.getTaken_by());
+            pstmt.setInt(6, permission.getConfirm_by());
             pstmt.executeUpdate();
 
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
         return permission;
+    }
+
+    public Integer countpermissionTable() throws SQLException {
+        String SQL = "SELECT countpermission_table()";
+
+        Connection conn = connect();
+        Statement stmt = conn.createStatement();
+
+        ResultSet rs = stmt.executeQuery(SQL);
+        rs.next();
+
+
+        return rs.getInt("countpermission_table");
     }
 
     public int deletpermissionTable(int ID){

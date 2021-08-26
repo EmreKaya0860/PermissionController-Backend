@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/permissionTable")
 public class permissionTableController {
 

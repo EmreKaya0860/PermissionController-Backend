@@ -67,27 +67,41 @@ public class managerFunctions extends App {
     }
 
     public managers insertManager(managers manager) {
-        String SQL = "INSERT INTO managers(name,email,phone,city,gender,status,department,started_date) "
-                + "VALUES(?,?,?,?,?,?,?,?,?)";
+        String SQL = "INSERT INTO managers(id,name,email,phone,city,gender,status,department,started_date,position) "
+                + "VALUES(?,?,?,?,?,?,?,?,?,?)";
 
         try (Connection conn = connect();
              PreparedStatement pstmt = conn.prepareStatement(SQL)) {
 
-            pstmt.setString(1, manager.getName());
-            pstmt.setString(2, manager.getEmail());
-            pstmt.setString(3, manager.getPhone());
-            pstmt.setString(4, manager.getCity());
-            pstmt.setString(5, manager.getGender());
-            pstmt.setString(6, manager.getStatus());
-            pstmt.setString(7, manager.getDepartment());
-            pstmt.setDate(8,   manager.getStarted_date());
-            pstmt.setString(9,manager.getPosition());
+            pstmt.setInt(1, (countManagers()+1));
+            pstmt.setString(2, manager.getName());
+            pstmt.setString(3, manager.getEmail());
+            pstmt.setString(4, manager.getPhone());
+            pstmt.setString(5, manager.getCity());
+            pstmt.setString(6, manager.getGender());
+            pstmt.setString(7, manager.getStatus());
+            pstmt.setString(8, manager.getDepartment());
+            pstmt.setDate(9,   manager.getStarted_date());
+            pstmt.setString(10,manager.getPosition());
             pstmt.executeUpdate();
 
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
         return manager;
+    }
+
+    public Integer countManagers() throws SQLException {
+        String SQL = "SELECT countmanagers()";
+
+        Connection conn = connect();
+        Statement stmt = conn.createStatement();
+
+        ResultSet rs = stmt.executeQuery(SQL);
+        rs.next();
+
+
+        return rs.getInt("countmanagers");
     }
 
     public int deletemanagers(int ID){
